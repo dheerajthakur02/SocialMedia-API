@@ -1,14 +1,15 @@
 import User from "../models/user.model.js";
 
-const isAdmin = async (req, res, next) => {
+const roleAuth = (roles) => async (req, res, next) => {
   try {
     const id = req.id;
     const person = await User.findById(id);
 
-    if (person.role != "admin") {
+    const isRoleMatched = roles.includes(person.role);
+    if (!isRoleMatched) {
       return res
         .status(400)
-        .json({ message: "You are not admin, you are not authorised" });
+        .json({ message: "you are not authorised to access" });
     }
     next();
   } catch (error) {
@@ -17,4 +18,4 @@ const isAdmin = async (req, res, next) => {
       .json({ message: "Internal server error", error: error.message });
   }
 };
-export default isAdmin;
+export default roleAuth;

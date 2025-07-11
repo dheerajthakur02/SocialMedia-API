@@ -106,9 +106,7 @@ export const likeThePost = async (req, res) => {
     );
 
     return res.status(200).json({
-      message: isLiked
-        ? "You liked the post"
-        : "You disliked you disliked the post",
+      message: isLiked ? "You liked the post" : "You unliked the post",
       details,
     });
   } catch (error) {
